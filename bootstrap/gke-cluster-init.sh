@@ -1,6 +1,6 @@
 # Creates 3 GKE autopilot clusters
 # ACTION REQUIRED! Change "project-id-here" value to the project you'll be using
-export PROJECT_ID="project-id-here"
+export PROJECT_ID="wrgarcia-poc-migrate"
 # Test cluster
 echo "creating testcluster..."
 gcloud beta container --project "$PROJECT_ID" clusters create-auto "testcluster" \

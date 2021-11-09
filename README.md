@@ -2,7 +2,7 @@
 This repo demostrates Kubernetes development and deployment with Skaffold and Google Cloud devops tools Google Cloud Deploy, Cloud Build, and Artifact Registry. The example app is based on a simple Python Flask example app named "Population Stats" and uses Kustomize overlays for manifest generation. 
 
 ## Create a repo
-This demo relies on you making git check-ins to simulate a developer workflow. Fork this repo, or otherwise copy it into your own Github repo.
+TThis demo relies on you making git check-ins to simulate a developer workflow. Fork this repo, or otherwise copy it into your own Github repo.
 
 ## Bootstrap Google Cloud demo
 Bootstrap scripts are in the `bootstrap` folder.
