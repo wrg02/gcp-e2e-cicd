@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: pop-stats
-        image: us-central1-docker.pkg.dev/wrgarcia-poc-migrate/pop-stats/pop-stats:latest
+        image: pop-stats:latest
         ports:
         - containerPort: 8080
           protocol: TCP
