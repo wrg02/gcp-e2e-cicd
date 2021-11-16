@@ -13,8 +13,9 @@ steps:
   - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
     args:
     - '-Dsonar.host.url=https://sonarcloud.io'
+    - '-Dsonar.login=wrg02@github'
     - '-Dsonar.token=$$SONAR_TOKEN'
-    - '-Dsonar.projectKey=cicd-demo'
+    - '-Dsonar.projectKey=wrg02_cicd-demo'
     - '-Dsonar.organization=wrg02'
     - '-Dsonar.sources=.'
     secretEnv: ['SONAR_TOKEN']     
@@ -36,5 +37,5 @@ steps:
       ]
 availableSecrets:
   secretManager:
-  - versionName: projects/$PROJECT_ID/secrets/sonar_token/versions/2
+  - versionName: projects/$PROJECT_ID/secrets/sonar_token/versions/3
     env: 'SONAR_TOKEN'
