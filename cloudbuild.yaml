@@ -11,6 +11,7 @@ steps:
     dir: 'app'
   # Verify code with sonarqube
   - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
+    entrypoint: 'bash'
     args:
     - '-X'
     - '-Dsonar.host.url=https://sonarcloud.io'
