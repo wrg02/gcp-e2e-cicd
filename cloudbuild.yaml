@@ -13,8 +13,8 @@ steps:
   - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
     args:
     - '-Dsonar.host.url=https://sonarcloud.io'
-    - '-Dsonar.login=$SONAR_TOKEN'
-    - '-Dsonar.projectKey=$SONAR_PROJECT_KEY'
+    - '-Dsonar.login=949b052d84ff25fcf769c1a375a7f680d640ce89'
+    - '-Dsonar.projectKey=cicd-demo'
     - '-Dsonar.organization=wrg02'
     - '-Dsonar.sources=.'     
   # Push the container image to Artifact Registry
