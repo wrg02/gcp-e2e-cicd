@@ -16,7 +16,8 @@ steps:
     - '-Dsonar.login=$$SONAR_TOKEN'
     - '-Dsonar.projectKey=cicd-demo'
     - '-Dsonar.organization=wrg02'
-    - '-Dsonar.sources=.'     
+    - '-Dsonar.sources=.'
+    secretEnv: ['SONAR_TOKEN']     
   # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}']
