@@ -14,7 +14,7 @@ steps:
     entrypoint: 'bash'
     args:
     - -c
-    - /launch.sh -X -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_LOGIN -Dsonar.projectKey=wrg02_cicd-demo -Dsonar.organization=wrg02 -Dsonar.sources=./app 
+    - /launch.sh -X -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_LOGIN -Dsonar.projectKey=wrg02_cicd-demo -Dsonar.organization=wrg02 -Dsonar.sources=./app -Dsonar.qualitygate.wait=true
     #- '-X'
     #- '-Dsonar.host.url=https://sonarcloud.io'
     #- '-Dsonar.login=$$SONAR_LOGIN'
