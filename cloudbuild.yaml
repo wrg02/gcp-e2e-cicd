@@ -14,14 +14,14 @@ steps:
     entrypoint: 'bash'
     args:
     - -c
-    - /launch.sh -X -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_LOGIN -Dsonar.projectKey=wrg02_cicd-demo -Dsonar.organization=wrg02 -Dsonar.sources=./app -Dsonar.qualitygate.wait=true
+    - /launch.sh -X -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_TOKEN -Dsonar.projectKey=$$SONAR_PROJECT_KEY -Dsonar.organization=$$SONAR_ORG -Dsonar.sources=./app -Dsonar.qualitygate.wait=true
     #- '-X'
     #- '-Dsonar.host.url=https://sonarcloud.io'
     #- '-Dsonar.login=$$SONAR_LOGIN'
     #- '-Dsonar.projectKey=wrg02_cicd-demo'
     #- '-Dsonar.organization=wrg02'
     #- '-Dsonar.sources=app/'
-    secretEnv: ['SONAR_LOGIN']     
+    secretEnv: ['SONAR_TOKEN','SONAR_ORG','SONAR_PROJECT_KEY']     
   # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}']
@@ -41,4 +41,8 @@ steps:
 availableSecrets:
   secretManager:
   - versionName: projects/$PROJECT_ID/secrets/sonar_token/versions/4
-    env: 'SONAR_LOGIN'
+    env: 'SONAR_TOKEN'
+  - versionName: projects/$PROJECT_ID/secrets/sonar_org/versions/1
+    env: 'SONAR_ORG'
+  - versionName: projects/$PROJECT_ID/secrets/sonar_project_key/versions/1
+    env: 'SONAR_PROJECT_KEY'
