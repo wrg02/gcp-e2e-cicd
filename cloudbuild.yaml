@@ -15,7 +15,7 @@ steps:
     args:
     - '-c'
     - |
-      ./launch.sh -X
+      /opt/sonar-scanner-4.6.0.2311-linux/launch.sh -X
       '-Dsonar.host.url=https://sonarcloud.io' \
       '-Dsonar.login=$$SONAR_LOGIN' \
       '-Dsonar.projectKey=wrg02_cicd-demo' \
