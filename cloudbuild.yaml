@@ -13,13 +13,8 @@ steps:
   - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
     entrypoint: 'bash'
     args:
-    - '-c'
-    - /launch.sh -X \
-      '-Dsonar.host.url=https://sonarcloud.io' \
-      '-Dsonar.login=$$SONAR_LOGIN' \
-      '-Dsonar.projectKey=wrg02_cicd-demo' \
-      '-Dsonar.organization=wrg02' \
-      '-Dsonar.sources=app/' 
+    - -c
+    - /launch.sh -X -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_LOGIN -Dsonar.projectKey=wrg02_cicd-demo -Dsonar.organization=wrg02 -Dsonar.sources=./app 
     #- '-X'
     #- '-Dsonar.host.url=https://sonarcloud.io'
     #- '-Dsonar.login=$$SONAR_LOGIN'
