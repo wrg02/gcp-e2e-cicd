@@ -1,9 +1,10 @@
 # To build and deploy to Cloud Run, run from this directory:
 # $ gcloud builds submit app --config=cloudbuild.yaml
 steps:
+  # Build app
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats','-f', 'Dockerfile']
-    dir: 'app'
+    dir: 'app'  
   # Run unit tests
   - name: us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats
     entrypoint: python
