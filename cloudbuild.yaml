@@ -9,7 +9,7 @@ steps:
     entrypoint: python
     args: ["unit_tests.py"]
     dir: 'app'
-  # Verify code with sonarqube - Quality gate x
+  # Verify code with sonarqube - Quality gate 
   - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
     entrypoint: 'bash'
     args:
