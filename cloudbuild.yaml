@@ -4,7 +4,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats','-f', 'Dockerfile']
     dir: 'app'
-  # Run unit tests
+  # Run unit test
   - name: us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats
     entrypoint: python
     args: ["unit_tests.py"]
