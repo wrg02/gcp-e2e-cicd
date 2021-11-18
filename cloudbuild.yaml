@@ -15,7 +15,7 @@ steps:
     entrypoint: 'bash'
     args:
     - -c
-    - /launch.sh -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_TOKEN -Dsonar.projectKey=$$SONAR_PROJECT_KEY -Dsonar.organization=$$SONAR_ORG -Dsonar.sources=./app -Dsonar.qualitygate.wait=false
+    - /launch.sh -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_TOKEN -Dsonar.projectKey=$$SONAR_PROJECT_KEY -Dsonar.organization=$$SONAR_ORG -Dsonar.sources=./app -Dsonar.qualitygate.wait=true
     secretEnv: ['SONAR_TOKEN','SONAR_ORG','SONAR_PROJECT_KEY']     
   # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
