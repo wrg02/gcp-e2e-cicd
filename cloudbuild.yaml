@@ -5,11 +5,13 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats','-f', 'Dockerfile']
     dir: 'app'  
+    id: build
   # Run unit tests
   - name: us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats
     entrypoint: python
     args: ["unit_tests.py"]
     dir: 'app'
+    id: test
   # Verify code with sonarqube - Quality gate
   - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
     entrypoint: 'bash'
@@ -22,6 +24,24 @@ steps:
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:latest']
+  # Vulnerability gate
+  - name: gcr.io/$PROJECT_ID/kritis-signer
+    entrypoint: /bin/bash
+    args:
+    - -c
+    - |
+      /kritis/signer \
+      -v=10 \
+      -alsologtostderr \
+      -image=$(/bin/cat image-digest.txt) \
+      -policy=policy.yaml \
+      -kms_key_name=$$KMS_KEY_NAME \
+      -kms_digest_alg=$$KMS_DIGEST_ALG \
+      -note_name=$$NOTE_NAME
+    waitFor: push
+    id: vulnsign
+    images: ['us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}']    
+    secretEnv: ['KMS_KEY_NAME','_KMS_DIGEST_ALG','_NOTE_NAME']
   # Create release in Google Cloud Deploy
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
@@ -41,3 +61,9 @@ availableSecrets:
     env: 'SONAR_ORG'
   - versionName: projects/$PROJECT_ID/secrets/sonar_project_key/versions/1
     env: 'SONAR_PROJECT_KEY'
+  - versionName: projects/$PROJECT_ID/secrets/kms_key_name/versions/1
+    env: 'KMS_KEY_NAME'
+  - versionName: projects/$PROJECT_ID/secrets/kms_digest_alg/versions/1
+    env: 'KMS_DIGEST_ALG'
+  - versionName: projects/$PROJECT_ID/secrets/note_name/versions/1
+    env: 'NOTE_NAME'    
