@@ -42,7 +42,7 @@ steps:
     waitFor: ["push"] 
     id: vulnsign
     #images: ['us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}']    
-    secretEnv: ['KMS_KEY_NAME','KMS_DIGEST_ALG','_NOTE_NAME']
+    secretEnv: ['KMS_KEY_NAME','KMS_DIGEST_ALG','NOTE_NAME']
   # Create release in Google Cloud Deploy
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
