@@ -26,6 +26,10 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:latest']
   # Vulnerability gate
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: 'bash'
+    args: [ '-c', "gcloud secrets versions access latest --secret=signer-policy --format='get(payload.data)' | tr '_-' '/+' | > policy.yaml" ]
+    id: get-policy
   - name: gcr.io/$PROJECT_ID/kritis-signer
     entrypoint: /bin/bash
     args:
@@ -35,14 +39,14 @@ steps:
       -v=10 \
       -alsologtostderr \
       -image='us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}' \
-      -policy=$$SIGNER_POLICY \
+      -policy=policy.yaml \
       -kms_key_name=$$KMS_KEY_NAME \
       -kms_digest_alg=$$KMS_DIGEST_ALG \
       -note_name=$$NOTE_NAME
-    waitFor: ["push"] 
+    #waitFor: ["push"] 
     id: vulnsign
     #images: ['us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}']    
-    secretEnv: ['KMS_KEY_NAME','KMS_DIGEST_ALG','NOTE_NAME','SIGNER_POLICY']
+    secretEnv: ['KMS_KEY_NAME','KMS_DIGEST_ALG','NOTE_NAME']
   # Create release in Google Cloud Deploy
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
