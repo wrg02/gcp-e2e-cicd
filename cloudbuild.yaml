@@ -28,7 +28,7 @@ steps:
   # Vulnerability gate
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
-    args: [ '-c', "gcloud secrets versions access latest --secret=signer-policy --format='get(payload.data)' | tr '_-' '/+' | > policy.yaml" ]
+    args: [ '-c', "gcloud secrets versions access latest --secret=signer-policy --format='get(payload.data)' > policy.yaml" ]
     id: get-policy
   - name: gcr.io/$PROJECT_ID/kritis-signer
     entrypoint: /bin/bash
