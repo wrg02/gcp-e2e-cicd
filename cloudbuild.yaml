@@ -43,7 +43,7 @@ steps:
       -kms_key_name=$$KMS_KEY_NAME \
       -kms_digest_alg=$$KMS_DIGEST_ALG \
       -note_name=$$NOTE_NAME
-    #waitFor: ["push"] 
+    waitFor: ["push"] 
     id: vulnsign
     #images: ['us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}']    
     secretEnv: ['KMS_KEY_NAME','KMS_DIGEST_ALG','NOTE_NAME']
