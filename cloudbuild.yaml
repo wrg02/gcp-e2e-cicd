@@ -30,6 +30,7 @@ steps:
     entrypoint: 'bash'
     args: [ '-c', "gcloud secrets versions access latest --secret=signer_policy --format='get(payload.data)' | tr '_-' '/+' | base64 -d > policy.yaml" ]
     id: get-policy
+    waitFor: ["push"]
   - name: gcr.io/$PROJECT_ID/kritis-signer
     entrypoint: /bin/bash
     args:
@@ -43,7 +44,7 @@ steps:
       -kms_key_name=$$KMS_KEY_NAME \
       -kms_digest_alg=$$KMS_DIGEST_ALG \
       -note_name=$$NOTE_NAME
-    waitFor: ["push"] 
+    waitFor: ["get-policy"] 
     id: vulnsign
     #images: ['us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}']    
     secretEnv: ['KMS_KEY_NAME','KMS_DIGEST_ALG','NOTE_NAME']
