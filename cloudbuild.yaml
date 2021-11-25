@@ -35,7 +35,6 @@ steps:
       docker image inspect us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA} --format '{{index .RepoDigests 0}}' > image-digest.txt &&
       cat image-digest.txt
     id: push
-
   # Vulnerability gate
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
