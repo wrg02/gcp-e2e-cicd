@@ -1,6 +1,9 @@
 # Google Cloud CI/CD End-to-End + Sonarqube Quality Gate Demo
 This repo demostrates Kubernetes development and deployment with Skaffold and Google Cloud devops tools Google Cloud Build, Cloud Deploy, and Artifact Registry. The example app is based a simple Hello World Python example app and uses Kustomize overlays for manifest generation. 
 
+## Repository structure
+
+
 ## Create a repo
 This demo relies on you making git check-ins/pushes to simulate a development workflow. Fork this repo, or otherwise copy it into your own Github repo.
 
