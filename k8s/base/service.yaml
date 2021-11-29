@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pop-stats
+  name: hello-world-python
 spec:
   ports:
   - port: 8080
     name: http
   type: LoadBalancer
   selector:
-    app: pop-stats
+    app: hello-world-python

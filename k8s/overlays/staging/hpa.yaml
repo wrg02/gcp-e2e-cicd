@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: pop-stats
+  name: hello-world-python
 spec:
   minReplicas: 1
   maxReplicas: 5

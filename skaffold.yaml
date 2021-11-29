@@ -1,12 +1,12 @@
 apiVersion: skaffold/v2beta16
 kind: Config
 metadata:
-  name: pop-stats
+  name: hello-world-python
 build:
   local: 
     push: false
   artifacts:
-  - image: pop-stats
+  - image: hello-world-python
     context: app
     docker:
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ deploy:
       - k8s/overlays/dev
 portForward:
 - resourceType: deployment
-  resourceName: pop-stats
+  resourceName: hello-world-python
   port: 8080 
   localPort: 8080
 profiles:

@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: pop-stats
+  name: hello-world-python
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: pop-stats
+    name: hello-world-python
   minReplicas: 1
   maxReplicas: 5
   metrics:

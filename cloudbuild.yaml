@@ -3,15 +3,15 @@
 steps:
   # Build app
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats','-f', 'Dockerfile']
+    args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:${COMMIT_SHA}', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python','-f', 'Dockerfile']
     dir: 'app'  
     id: build
   # Run unit tests
-  #- name: us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats
-  #  entrypoint: python
-  #  args: ["unit_tests.py"]
-  #  dir: 'app'
-  #  id: test
+  - name: us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python
+    entrypoint: python
+    args: ["unit_tests.py"]
+    dir: 'app'
+    id: test
   # Verify code with sonarqube - Quality gate
   - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
     entrypoint: 'bash'
@@ -21,7 +21,7 @@ steps:
     secretEnv: ['SONAR_TOKEN','SONAR_ORG','SONAR_PROJECT_KEY']
   # Push docker image and save image digest for kritis check
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python']
     id: push
   # Create release in Google Cloud Deploy
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
@@ -29,10 +29,10 @@ steps:
     args: 
       [
         "beta", "deploy", "releases", "create", "rel-${SHORT_SHA}",
-        "--delivery-pipeline", "pop-stats-pipeline",
+        "--delivery-pipeline", "hello-world-python-pipeline",
         "--region", "us-central1",
         "--annotations", "commitId=${REVISION_ID}",
-        "--images", "pop-stats=us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}"
+        "--images", "hello-world-python=us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python:${COMMIT_SHA}"
       ]
 availableSecrets:
   secretManager:

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pop-stats
+  name: hello-world-python
 spec:
   replicas: 8
   strategy:
@@ -12,7 +12,7 @@ spec:
   template:
     spec:
       containers:
-          - name: pop-stats
+          - name: hello-world-python
             env:
               - name: SITE_NAME
                 value: "Population Stats Prod"

@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pop-stats
+  name: hello-world-python
   labels:
-    app: pop-stats
+    app: hello-world-python
 spec:
   selector:
     matchLabels:
-      app: pop-stats
+      app: hello-world-python
   replicas: 1
   template:
     metadata:
       labels:
-        app: pop-stats
+        app: hello-world-python
     spec:
       containers:
-      - name: pop-stats
-        image: pop-stats
+      - name: hello-world-python
+        image: hello-world-python
         ports:
         - containerPort: 8080
           protocol: TCP

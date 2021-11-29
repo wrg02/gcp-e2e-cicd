@@ -8,7 +8,7 @@ gcloud services enable container.googleapis.com cloudbuild.googleapis.com \
 artifactregistry.googleapis.com clouddeploy.googleapis.com \
 cloudresourcemanager.googleapis.com
 # creates the Artifact Registry repo
-gcloud artifacts repositories create pop-stats --location=us-central1 \
+gcloud artifacts repositories create hello-world-python --location=us-central1 \
 --repository-format=docker
 # creates the Google Cloud Deploy pipeline
 gcloud beta deploy apply --file clouddeploy.yaml \

@@ -1,8 +1,8 @@
 apiVersion: deploy.cloud.google.com/v1beta1
 kind: DeliveryPipeline
 metadata:
-  name: pop-stats-pipeline
-description: pop-stats application delivery pipeline
+  name: hello-world-python-pipeline
+description: hello-world-python application delivery pipeline
 serialPipeline:
  stages:
  - targetId: test

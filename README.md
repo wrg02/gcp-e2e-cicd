@@ -1,8 +1,8 @@
-# Google Cloud CI/CD End-to-End Demo
-This repo demostrates Kubernetes development and deployment with Skaffold and Google Cloud devops tools Google Cloud Deploy, Cloud Build, and Artifact Registry. The example app is based on a simple Python Flask example app named "Population Stats" and uses Kustomize overlays for manifest generation. 
+# Google Cloud CI/CD End-to-End + Sonarqube Quality Gate Demo
+This repo demostrates Kubernetes development and deployment with Skaffold and Google Cloud devops tools Google Cloud Build, Cloud Deploy, and Artifact Registry. The example app is based a simple Hello World Python example app and uses Kustomize overlays for manifest generation. 
 
 ## Create a repo
-TThis demo relies on you making git check-ins to simulate a developer workflow. Fork this repo, or otherwise copy it into your own Github repo.
+This demo relies on you making git check-ins/pushes to simulate a development workflow. Fork this repo, or otherwise copy it into your own Github repo.
 
 ## Bootstrap Google Cloud demo
 Bootstrap scripts are in the `bootstrap` folder.
@@ -27,6 +27,8 @@ If you have/want different cluster names update cluster definitions in the gke-c
 To create the clusters, edit `bootstrap/gke-cluster-init.sh`:
 1. Replace `project-id-here` with your project-id on line 3.
 2. Run `. .bootstrap/gke-cluster-init.sh`
+
+These clusters are being created with Autopilot mode, check the [docs] (https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview) for reference
 
 ## IAM and service account setup
 You must give Cloud Build explicit permission to trigger a Cloud Deploy release.
