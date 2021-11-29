@@ -20,38 +20,9 @@ steps:
     - /launch.sh -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_TOKEN -Dsonar.projectKey=$$SONAR_PROJECT_KEY -Dsonar.organization=$$SONAR_ORG -Dsonar.sources=./app -Dsonar.qualitygate.wait=false
     secretEnv: ['SONAR_TOKEN','SONAR_ORG','SONAR_PROJECT_KEY']
   # Push docker image and save image digest for kritis check
-  - name: gcr.io/cloud-builders/docker
-    entrypoint: /bin/bash
-    args:
-    - -c
-    - |
-      docker push us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA} &&
-      docker push us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:latest &&
-      docker image inspect us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA} --format '{{index .RepoDigests 0}}' > image-digest.txt &&
-      cat image-digest.txt
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats']
     id: push
-  # Vulnerability gate
-  - name: gcr.io/cloud-builders/gcloud
-    entrypoint: 'bash'
-    args: [ '-c', "gcloud secrets versions access latest --secret=signer_policy --format='get(payload.data)' | tr '_-' '/+' | base64 -d > policy.yaml" ]
-    id: get-policy
-    waitFor: ["push"]
-  - name: gcr.io/$PROJECT_ID/kritis-signer
-    entrypoint: /bin/bash
-    args:
-    - -c
-    - |
-      /kritis/signer \
-      -v=10 \
-      -alsologtostderr \
-      -image=$(/bin/cat image-digest.txt) \
-      -policy=policy.yaml \
-      -kms_key_name=$$KMS_KEY_NAME \
-      -kms_digest_alg=$$KMS_DIGEST_ALG \
-      -note_name=$$NOTE_NAME
-    waitFor: ["get-policy"] 
-    id: vulnsign
-    secretEnv: ['KMS_KEY_NAME','KMS_DIGEST_ALG','NOTE_NAME']
   # Create release in Google Cloud Deploy
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
@@ -71,10 +42,3 @@ availableSecrets:
     env: 'SONAR_ORG'
   - versionName: projects/$PROJECT_ID/secrets/sonar_project_key/versions/1
     env: 'SONAR_PROJECT_KEY'
-  - versionName: projects/$PROJECT_ID/secrets/kms_key_name/versions/1
-    env: 'KMS_KEY_NAME'
-  - versionName: projects/$PROJECT_ID/secrets/kms_digest_alg/versions/1
-    env: 'KMS_DIGEST_ALG'
-  - versionName: projects/$PROJECT_ID/secrets/note_name/versions/1
-    env: 'NOTE_NAME'    
-   
