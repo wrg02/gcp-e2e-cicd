@@ -1,5 +1,5 @@
 # To build and deploy to Cloud Run, run from this directory:
-# $ gcloud builds submit app --config=cloudbuild.yaml 
+# $ gcloud builds submit app --config=cloudbuild.yaml s
 steps:
   # Build app
   - name: 'gcr.io/cloud-builders/docker'
@@ -19,6 +19,7 @@ steps:
     - -c
     - /launch.sh -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$SONAR_TOKEN -Dsonar.projectKey=$$SONAR_PROJECT_KEY -Dsonar.organization=$$SONAR_ORG -Dsonar.sources=./app -Dsonar.qualitygate.wait=false
     secretEnv: ['SONAR_TOKEN','SONAR_ORG','SONAR_PROJECT_KEY']
+  # Push docker image and save image digest for kritis check
   - name: gcr.io/cloud-builders/docker
     entrypoint: /bin/bash
     args:
