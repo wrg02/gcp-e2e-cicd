@@ -1,4 +1,3 @@
-# Distroless Dockerfile for running in production
 FROM python:3-alpine
 WORKDIR /service
 COPY requirements.txt .
