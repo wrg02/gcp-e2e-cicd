@@ -8,8 +8,8 @@ steps:
     id: build
   # Run unit tests
   - name: us-central1-docker.pkg.dev/$PROJECT_ID/hello-world-python/hello-world-python
-    entrypoint: unit_tests.py
-    args: ["-s"]
+    entrypoint: python
+    args: ["-m","unit_tests.py"]
     dir: 'app'
     id: test
   # Verify code with sonarqube - Quality gate
