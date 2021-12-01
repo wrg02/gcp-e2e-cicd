@@ -2,7 +2,14 @@
 This repo demostrates Kubernetes development and deployment with Skaffold and Google Cloud devops tools Google Cloud Build, Cloud Deploy, and Artifact Registry. The example app is based a simple Hello World Python example app and uses Kustomize overlays for manifest generation. 
 
 ## Repository structure
+The main files/folders in this repository are:
 
+app/Dockerfile specifies how the application is built and packaged
+bootstrap/init.sh contains initial configurations
+bootstrap/gke-cluster-init.sh contains commands to create the k8s clusters where the application will run (targets of cloud deploy)
+k8s contains base and overlays files for Kustomize
+cloudbuid.yaml contains the pipeline build steps
+clouddeploy.yaml is used to create the pipeline and the deploy targets
 
 ## Create a repo
 This demo relies on you making git check-ins/pushes to simulate a development workflow. Fork this repo, or otherwise copy it into your own Github repo.
@@ -41,15 +48,25 @@ You must give Cloud Build explicit permission to trigger a Cloud Deploy release.
   * Cloud Deploy Releaser
   * Service Account User
 
+## Sonarqube  
+This demos is using the Sonarqube community cloud builder (https://github.com/GoogleCloudPlatform/cloud-builders-community/tree/master/sonarqube)
+
+Follow the builder documentation to setup the authentication and sonarqube docs to setup the Sonarqube project
+
+This demo is using sonarcloud.oi (Sonarqube cloud/SaaS), in order to use it, it is free for public/open source repositories.
+
 ## Demo
-The demo is very simple at this stage.
+The demo is very simple at this stage, some steps that can be followed to show the e2e pipeline:
 1. User commits a change the main branch of the repo
 2. Cloud Build is automatically triggered, which:
-  * builds and pushes impages to Artifact Registry
+  * builds the image
+  * checks the code with Sonarqube (set -Dsonar.qualitygate.wait true if you want the build to fail if the code doesn't meet the quality requirements)
+  * pushes the image to artifact registry
   * creates a Cloud Deploy release in the pipeline
 3. User then navigates to Cloud Deploy UI and shows promotion events:
   * test cluster to staging clusters
   * staging cluster to product cluster, with approval gate
+  * show the application GKE > Services > Click on the external IP 
 
 ## Tear down
 To remove the three running GKE clusters, edit `bootstrap/gke-cluster-delete.sh`:
