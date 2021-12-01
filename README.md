@@ -49,17 +49,21 @@ You must give Cloud Build explicit permission to trigger a Cloud Deploy release.
   * Service Account User
 
 ## Sonarqube  
-This demos is using the Sonarqube community cloud builder (https://github.com/GoogleCloudPlatform/cloud-builders-community/tree/master/sonarqube)
+This demo is using the Sonarqube community cloud builder (https://github.com/GoogleCloudPlatform/cloud-builders-community/tree/master/sonarqube)
 
 Follow the builder documentation to setup the authentication and sonarqube docs to setup the Sonarqube project
 
 This demo is using sonarcloud.oi (Sonarqube cloud/SaaS), in order to use it, it is free for public/open source repositories.
+
+## Secret Manager
+This demo is using secrets from Secret Manager to store and retrieve some sensitive information, like Sonarqube user and token, to setup and use Secret Manager with Cloud Build, follow these steps: https://cloud.google.com/build/docs/securing-builds/use-secrets
 
 ## Demo
 The demo is very simple at this stage, some steps that can be followed to show the e2e pipeline:
 1. User commits a change the main branch of the repo
 2. Cloud Build is automatically triggered, which:
   * builds the image
+  * runs unit tests
   * checks the code with Sonarqube (set -Dsonar.qualitygate.wait true if you want the build to fail if the code doesn't meet the quality requirements)
   * pushes the image to artifact registry
   * creates a Cloud Deploy release in the pipeline
@@ -67,6 +71,7 @@ The demo is very simple at this stage, some steps that can be followed to show t
   * test cluster to staging clusters
   * staging cluster to product cluster, with approval gate
   * show the application GKE > Services > Click on the external IP 
+
 
 ## Tear down
 To remove the three running GKE clusters, edit `bootstrap/gke-cluster-delete.sh`:
@@ -98,10 +103,8 @@ To deploy to prod, set your kube context to the proper cluster and run:
 ## Try it in Cloud Shell
 Google Cloud Shell provides a free environment in which to play with these files:
 
-[![Open in cloud shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/vszal/pop-kustomize&page=editor&open_in_editor=skaffold.yaml)
+[![Open in cloud shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/wrg02/cicd-demo&page=editor&open_in_editor=skaffold.yaml)
 
-# About the Sample app - Population stats
+# About the Sample app - Hello World Python
 
-Simple web app that pulls population data based on address queries. 
-
-Population data gathered from the U.S. Census Bureau [Population Estimate API](https://www.census.gov/data/developers/data-sets/popest-popproj/popest.html).
+Simple Python hello-world web app (https://github.com/datawire/hello-world-python)
