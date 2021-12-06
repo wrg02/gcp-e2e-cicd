@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hello-world-python
 spec:
-  replicas: 8
+  replicas: 10
   strategy:
     type: RollingUpdate
     rollingUpdate:
