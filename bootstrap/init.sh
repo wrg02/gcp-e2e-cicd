@@ -1,6 +1,6 @@
 # Initilize set project ID variable and run various initializations
 # ACTION REQUIRED! Change "project-id-here" value to the project you'll be using
-export PROJECT_ID="wrgarcia-poc-migrate"
+export PROJECT_ID="project-id-here"
 # sets the current project for gcloud
 gcloud config set project $PROJECT_ID
 # Enables various APIs you'll need
